@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqjlfld3di5i8"]
+
+[ext_resource type="AudioStream" uid="uid://yiwe4k84fp0t" path="res://assets/music/webcage - TENSIONNN.mp3" id="1_323x5"]
+[ext_resource type="Script" path="res://scenes/objects/conductor/conductor.gd" id="1_gjxpx"]
+
+[node name="conductor" type="AudioStreamPlayer3D"]
+stream = ExtResource("1_323x5")
+autoplay = true
+script = ExtResource("1_gjxpx")
