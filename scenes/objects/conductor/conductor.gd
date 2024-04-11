@@ -36,4 +36,4 @@ func beat():
 	if metronome: $metronome.play()
 
 func line():
-	$CSGSphere3D.visible = !$CSGSphere3D.visible
+	pass
