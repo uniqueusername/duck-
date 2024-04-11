@@ -27,78 +27,6 @@ script = ExtResource("1_3udfa")
 [node name="lane1" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CheckBox" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox2" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox3" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox4" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox5" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox6" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox7" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox8" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox9" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox10" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox11" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox12" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox13" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox14" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox15" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox16" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox17" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox18" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox19" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox20" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox21" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox22" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox23" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
-[node name="CheckBox24" type="CheckBox" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/lane1"]
-layout_mode = 2
-
 [node name="lane2" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
@@ -114,6 +42,8 @@ layout_mode = 2
 [node name="lane6" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
+[node name="save" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "save"
+
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer/save" to="CanvasLayer/MarginContainer/ScrollContainer/VBoxContainer" method="_on_save_pressed"]
