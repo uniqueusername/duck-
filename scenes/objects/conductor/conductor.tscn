@@ -12,3 +12,5 @@ script = ExtResource("1_gjxpx")
 [node name="metronome" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource("3_610x8")
 volume_db = 80.0
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
