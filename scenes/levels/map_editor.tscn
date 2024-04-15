@@ -25,22 +25,25 @@ layout_mode = 2
 script = ExtResource("1_3udfa")
 file_selector = NodePath("../../../../FileDialog")
 
-[node name="lane1" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]
+[node name="lanes" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]
 layout_mode = 2
 
-[node name="lane2" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]
+[node name="lane1" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lanes"]
 layout_mode = 2
 
-[node name="lane3" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]
+[node name="lane2" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lanes"]
 layout_mode = 2
 
-[node name="lane4" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]
+[node name="lane3" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lanes"]
 layout_mode = 2
 
-[node name="lane5" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]
+[node name="lane4" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lanes"]
 layout_mode = 2
 
-[node name="lane6" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]
+[node name="lane5" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lanes"]
+layout_mode = 2
+
+[node name="lane6" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lanes"]
 layout_mode = 2
 
 [node name="buttons" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]

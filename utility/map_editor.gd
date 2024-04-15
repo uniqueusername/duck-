@@ -1,34 +1,54 @@
 extends VBoxContainer
 
-@export var file_selector: FileDialog
-@onready var lanes = [$lane1, $lane2, $lane3, $lane4, $lane5, $lane6]
-var map: BitMap = BitMap.new()
+@export var file_selector: FileDialog # file save/open dialog
+@onready var lanes = {} # map each lane to its checkboxes
+var map: BitMap = BitMap.new() # raw map data
 
-var lines: int = 24
+var lane_count: int = 6
+var beats: int = 12
+var lpb: int = 2 # lines per beat
+var lines = beats * lpb # total number of lines
 
 func _ready():
 	initialize_map()
 
+# generate ui according to map metadata
 func initialize_map():
-	for i in lanes.size():
-		for j in range(lines):
-			lanes[i].add_child(CheckBox.new())
+	# clear existing lanes
+	for child in $lanes.get_children():
+		child.queue_free()
 	
-	map.create(Vector2i(6, lines))
+	# create new lanes
+	for i in range(lane_count):
+		var new_lane = HBoxContainer.new()
+		new_lane.name = "lane" + str(i)
+		lanes[new_lane] = []
+		$lanes.add_child(new_lane)
+	
+	# create checkboxes
+	for lane in lanes.keys():
+		for line in range(lines):
+			if line % 8 == 0 and line > 0: lane.add_child(VSeparator.new())
+			var checkbox = CheckBox.new()
+			lane.add_child(checkbox)
+			lanes.get(lane).append(checkbox)
+	
+	map.create(Vector2i(lane_count, lines))
 
 func load_map(path: String):
 	map = load(path)
 	
-	for i in range(map.get_size().x):
-		for j in range(map.get_size().y):
-			lanes[i].get_children()[j].button_pressed = map.get_bit(i, j)
+	for i in range(lanes.keys().size()):
+		var boxes = lanes[lanes.keys()[i]]
+		for j in range(boxes.size()):
+			boxes[j].button_pressed = map.get_bit(i, j)
 
 func save_map(path: String):
-	for i in range(lanes.size()):
-		var bits = lanes[i].get_children()
-		for j in range(bits.size()):
-			map.set_bit(i, j, bits[j].button_pressed)
-			
+	for i in range(lanes.keys().size()):
+		var boxes = lanes.get(lanes.keys()[i])
+		for j in range(boxes.size()):
+			map.set_bit(i, j, boxes[j].button_pressed)
+	
 	ResourceSaver.save(map, path)
 
 func _on_save_pressed():
