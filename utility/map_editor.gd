@@ -1,14 +1,13 @@
 extends VBoxContainer
 
+@export var file_selector: FileDialog
 @onready var lanes = [$lane1, $lane2, $lane3, $lane4, $lane5, $lane6]
 var map: BitMap = BitMap.new()
 
-var map_path: String = "assets/maps/tension.tres"
 var lines: int = 24
 
 func _ready():
 	initialize_map()
-	if FileAccess.file_exists(map_path): load_map(map_path)
 
 func initialize_map():
 	for i in lanes.size():
@@ -33,4 +32,17 @@ func save_map(path: String):
 	ResourceSaver.save(map, path)
 
 func _on_save_pressed():
-	save_map(map_path)
+	file_selector.file_mode = FileDialog.FILE_MODE_SAVE_FILE
+	file_selector.show()
+
+func _on_load_pressed():
+	file_selector.file_mode = FileDialog.FILE_MODE_OPEN_FILE
+	file_selector.show()
+
+func _on_file_selected(path):
+	if file_selector.file_mode == FileDialog.FILE_MODE_SAVE_FILE:
+		save_map(path)
+	elif file_selector.file_mode == FileDialog.FILE_MODE_OPEN_FILE:
+		load_map(path)
+	
+	file_selector.hide()
