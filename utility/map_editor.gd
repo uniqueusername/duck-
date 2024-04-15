@@ -4,22 +4,26 @@ extends VBoxContainer
 @onready var lanes = {} # map each lane to its checkboxes
 var map: BitMap = BitMap.new() # raw map data
 
-var lane_count: int = 6
+var lane_count: int = 6:
+	set(value):
+		if value < 4: return
+		else: lane_count = value
 var beats: int = 12
 var lpb: int = 2 # lines per beat
 var lines = beats * lpb # total number of lines
 
 func _ready():
-	initialize_map()
+	initialize_map(lane_count)
 
 # generate ui according to map metadata
-func initialize_map():
+func initialize_map(num_lanes: int):
 	# clear existing lanes
-	for child in $lanes.get_children():
-		child.queue_free()
+	for lane in lanes.keys():
+		lane.queue_free()
+	lanes.clear()
 	
 	# create new lanes
-	for i in range(lane_count):
+	for i in range(num_lanes):
 		var new_lane = HBoxContainer.new()
 		new_lane.name = "lane" + str(i)
 		lanes[new_lane] = []
@@ -33,8 +37,9 @@ func initialize_map():
 			lane.add_child(checkbox)
 			lanes.get(lane).append(checkbox)
 	
-	map.create(Vector2i(lane_count, lines))
+	map.create(Vector2i(num_lanes, lines))
 
+# load a map from file
 func load_map(path: String):
 	map = load(path)
 	
@@ -43,6 +48,7 @@ func load_map(path: String):
 		for j in range(boxes.size()):
 			boxes[j].button_pressed = map.get_bit(i, j)
 
+# save current editor state to a file
 func save_map(path: String):
 	for i in range(lanes.keys().size()):
 		var boxes = lanes.get(lanes.keys()[i])
@@ -66,3 +72,13 @@ func _on_file_selected(path):
 		load_map(path)
 	
 	file_selector.hide()
+
+func _on_minus_pressed():
+	lane_count -= 2
+	$lane_count/counter.text = str(lane_count)
+	initialize_map(lane_count)
+
+func _on_plus_pressed():
+	lane_count += 2
+	$lane_count/counter.text = str(lane_count)
+	initialize_map(lane_count)

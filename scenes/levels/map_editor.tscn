@@ -25,6 +25,28 @@ layout_mode = 2
 script = ExtResource("1_3udfa")
 file_selector = NodePath("../../../../FileDialog")
 
+[node name="lane_count" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lane_count"]
+layout_mode = 2
+text = "Number of Lanes"
+
+[node name="counter" type="LineEdit" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lane_count"]
+layout_mode = 2
+text = "6"
+max_length = 2
+editable = false
+expand_to_text_length = true
+
+[node name="minus" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lane_count"]
+layout_mode = 2
+text = "-"
+
+[node name="plus" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lane_count"]
+layout_mode = 2
+text = "+"
+
 [node name="lanes" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]
 layout_mode = 2
 
@@ -66,6 +88,8 @@ file_mode = 0
 root_subfolder = "res://assets/maps/"
 filters = PackedStringArray("*.tres")
 
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/editor/lane_count/minus" to="CanvasLayer/MarginContainer/ScrollContainer/editor" method="_on_minus_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/editor/lane_count/plus" to="CanvasLayer/MarginContainer/ScrollContainer/editor" method="_on_plus_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/editor/buttons/save" to="CanvasLayer/MarginContainer/ScrollContainer/editor" method="_on_save_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/editor/buttons/load" to="CanvasLayer/MarginContainer/ScrollContainer/editor" method="_on_load_pressed"]
 [connection signal="file_selected" from="FileDialog" to="CanvasLayer/MarginContainer/ScrollContainer/editor" method="_on_file_selected"]
