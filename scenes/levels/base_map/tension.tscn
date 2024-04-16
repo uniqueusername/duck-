@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://dmiyr1vyfk3ka"]
+
+[ext_resource type="PackedScene" uid="uid://dqjlfld3di5i8" path="res://scenes/objects/conductor/conductor.tscn" id="1_6jfri"]
+[ext_resource type="Resource" uid="uid://hbtn5rfbx4fq" path="res://assets/maps/tensionnn.tres" id="2_ikbiv"]
+[ext_resource type="Script" path="res://scenes/levels/base_map/hit_indicator.gd" id="3_d63h4"]
+
+[node name="tension" type="Node3D"]
+
+[node name="conductor" parent="." instance=ExtResource("1_6jfri")]
+unique_name_in_owner = true
+map = ExtResource("2_ikbiv")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2.41332)
+
+[node name="hit_indicator" type="Node3D" parent="."]
+script = ExtResource("3_d63h4")
