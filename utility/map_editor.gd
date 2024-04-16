@@ -3,7 +3,7 @@ extends VBoxContainer
 # editor data
 @export var file_selector: FileDialog # file save/open dialog
 @onready var lanes = {} # map each lane to its checkboxes
-var hidden_lanes = {}
+var hidden_lanes = {} # cache "deleted" lanes
 var map: BitMap = BitMap.new() # raw map data
 
 # map information
@@ -16,20 +16,26 @@ var lpb: int = 2: # lines per beat
 	set(value):
 		lpb = value
 		lines = beats * lpb
-var lines = beats * lpb # total number of lines
+var lines = beats * lpb: # total number of lines-determined automatically
+	set(value):
+		if value != beats * lpb: return
+		else: lines = value
 
 func _ready():
 	initialize_editor()
-	map.create(Vector2i(lane_count, lines))
 
 # generate ui according to map metadata
 func initialize_editor():
 	# clear existing lanes
 	for lane in lanes.keys():
 		lane.queue_free()
+	for lane in hidden_lanes.keys():
+		lane.queue_free()
 	lanes.clear()
+	hidden_lanes.clear()
 	
 	# create new lanes
+	$lane_count/counter.text = str(lane_count)
 	for i in range(lane_count):
 		create_empty_lane(i+1)
 
@@ -69,7 +75,7 @@ func create_empty_lane(num: int):
 	$lanes.add_child(new_lane)
 	
 	for line in range(lines):
-		if line % 8 == 0 and line > 0: new_lane.add_child(VSeparator.new())
+		if line % lpb == 0 and line > 0: new_lane.add_child(VSeparator.new())
 		var checkbox = CheckBox.new()
 		new_lane.add_child(checkbox)
 		lanes[new_lane].append(checkbox)
@@ -87,6 +93,8 @@ func load_map(path: String):
 
 # save current editor state to a file
 func save_map(path: String):
+	map.create(Vector2i(lane_count, lines))
+	
 	for i in range(lanes.keys().size()):
 		var boxes = lanes.get(lanes.keys()[i])
 		for j in range(boxes.size()):
