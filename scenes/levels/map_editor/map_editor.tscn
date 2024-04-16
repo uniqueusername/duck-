@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://2xgsm1fiv6u5"]
 
-[ext_resource type="Script" path="res://utility/map_editor.gd" id="1_3udfa"]
+[ext_resource type="Script" path="res://scenes/levels/map_editor/map_editor.gd" id="1_3udfa"]
 
 [node name="map_editor" type="Node2D"]
 
