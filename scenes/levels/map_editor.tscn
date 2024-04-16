@@ -1,0 +1,95 @@
+[gd_scene load_steps=2 format=3 uid="uid://2xgsm1fiv6u5"]
+
+[ext_resource type="Script" path="res://utility/map_editor.gd" id="1_3udfa"]
+
+[node name="map_editor" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/MarginContainer"]
+layout_mode = 2
+
+[node name="editor" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer" node_paths=PackedStringArray("file_selector")]
+layout_mode = 2
+script = ExtResource("1_3udfa")
+file_selector = NodePath("../../../../FileDialog")
+
+[node name="lane_count" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]
+layout_mode = 2
+
+[node name="label" type="Label" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lane_count"]
+layout_mode = 2
+text = "Number of Lanes"
+
+[node name="counter" type="LineEdit" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lane_count"]
+layout_mode = 2
+text = "6"
+max_length = 2
+editable = false
+expand_to_text_length = true
+
+[node name="minus" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lane_count"]
+layout_mode = 2
+text = "-"
+
+[node name="plus" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lane_count"]
+layout_mode = 2
+text = "+"
+
+[node name="lanes" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]
+layout_mode = 2
+
+[node name="lane1" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lanes"]
+layout_mode = 2
+
+[node name="lane2" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lanes"]
+layout_mode = 2
+
+[node name="lane3" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lanes"]
+layout_mode = 2
+
+[node name="lane4" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lanes"]
+layout_mode = 2
+
+[node name="lane5" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lanes"]
+layout_mode = 2
+
+[node name="lane6" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/lanes"]
+layout_mode = 2
+
+[node name="buttons" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]
+layout_mode = 2
+
+[node name="save" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/buttons"]
+layout_mode = 2
+text = "save"
+
+[node name="load" type="Button" parent="CanvasLayer/MarginContainer/ScrollContainer/editor/buttons"]
+layout_mode = 2
+text = "load"
+
+[node name="FileDialog" type="FileDialog" parent="."]
+title = "Open a File"
+initial_position = 2
+size = Vector2i(640, 360)
+ok_button_text = "Open"
+file_mode = 0
+root_subfolder = "res://assets/maps/"
+filters = PackedStringArray("*.tres")
+
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/editor/lane_count/minus" to="CanvasLayer/MarginContainer/ScrollContainer/editor" method="_on_minus_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/editor/lane_count/plus" to="CanvasLayer/MarginContainer/ScrollContainer/editor" method="_on_plus_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/editor/buttons/save" to="CanvasLayer/MarginContainer/ScrollContainer/editor" method="_on_save_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/ScrollContainer/editor/buttons/load" to="CanvasLayer/MarginContainer/ScrollContainer/editor" method="_on_load_pressed"]
+[connection signal="file_selected" from="FileDialog" to="CanvasLayer/MarginContainer/ScrollContainer/editor" method="_on_file_selected"]
