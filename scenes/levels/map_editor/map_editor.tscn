@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://2xgsm1fiv6u5"]
 
-[ext_resource type="Script" path="res://scenes/levels/map_editor/map_editor.gd" id="1_3udfa"]
+[ext_resource type="Script" path="res://scenes/levels/map_editor/map_editor.gd" id="1_digj6"]
 
 [node name="map_editor" type="Node2D"]
 
@@ -22,7 +22,7 @@ layout_mode = 2
 
 [node name="editor" type="VBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer" node_paths=PackedStringArray("file_selector")]
 layout_mode = 2
-script = ExtResource("1_3udfa")
+script = ExtResource("1_digj6")
 file_selector = NodePath("../../../../FileDialog")
 
 [node name="lane_count" type="HBoxContainer" parent="CanvasLayer/MarginContainer/ScrollContainer/editor"]

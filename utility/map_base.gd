@@ -1,7 +1,14 @@
 extends Resource
 class_name DuckMap
 
-@export var song: AudioStream
+@export var song: AudioStream:
+	set(value):
+		song = value
+		bpm = song.bpm
+		resize_map(
+			lane_count,
+			lines_per_beat * int(ceil(song.get_length() / 60 * song.bpm))
+		)
 
 # map information
 @export_subgroup("Map Information")
@@ -30,3 +37,19 @@ func reset_bitmap():
 	
 	total_lines = total_beats * lines_per_beat
 	bitmap.create(Vector2i(lane_count, total_lines))
+
+# attempts to resize the map as non-destructively as possible
+func resize_map(lanes: int, lines: int):
+	var new_map: BitMap = BitMap.new()
+	new_map.create(Vector2i(lanes, lines))
+	
+	var min_lanes = min(lanes, lane_count)
+	var min_lines = min(lines, total_lines)
+	
+	for x in range(min_lines):
+		for y in range(min_lanes):
+			new_map.set_bit(x, y, bitmap.get_bit(x, y))
+	
+	lane_count = lanes
+	total_lines = lines
+	bitmap = new_map

@@ -10,10 +10,10 @@ var current_line: int = 0
 
 # conductor configuration
 @export_group("Tools")
-@export var metronome: bool = false ## Play a tick every beat
+@export var metronome: bool = false ## Play a tick every beat.
 
 @export_group("Configuration")
-@export var lines_per_beat: int = 2 ## Number of programmable lines per beat
+@export var lines_per_beat: int = 2 ## Number of programmable lines per beat.
 
 func _ready():
 	stream = map.song

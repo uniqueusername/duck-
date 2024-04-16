@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="DuckMap" load_steps=3 format=3 uid="uid://citu1km1q0kru"]
+
+[ext_resource type="Script" path="res://utility/map_base.gd" id="1_sx3d0"]
+[ext_resource type="AudioStream" uid="uid://yiwe4k84fp0t" path="res://assets/music/tensionnn/webcage - TENSIONNN.mp3" id="2_aa081"]
+
+[resource]
+script = ExtResource("1_sx3d0")
+song = ExtResource("2_aa081")
+lane_count = 6
+lines_per_beat = 8
+bpm = 142
