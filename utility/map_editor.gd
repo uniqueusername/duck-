@@ -1,47 +1,84 @@
 extends VBoxContainer
 
+# editor data
 @export var file_selector: FileDialog # file save/open dialog
 @onready var lanes = {} # map each lane to its checkboxes
+var hidden_lanes = {}
 var map: BitMap = BitMap.new() # raw map data
 
-var lane_count: int = 6:
+# map information
+var lane_count: int = 6
+var beats: int = 12:
 	set(value):
-		if value < 4: return
-		else: lane_count = value
-var beats: int = 12
-var lpb: int = 2 # lines per beat
+		beats = value
+		lines = beats * lpb
+var lpb: int = 2: # lines per beat
+	set(value):
+		lpb = value
+		lines = beats * lpb
 var lines = beats * lpb # total number of lines
 
 func _ready():
-	initialize_map(lane_count)
+	initialize_editor()
+	map.create(Vector2i(lane_count, lines))
 
 # generate ui according to map metadata
-func initialize_map(num_lanes: int):
+func initialize_editor():
 	# clear existing lanes
 	for lane in lanes.keys():
 		lane.queue_free()
 	lanes.clear()
 	
 	# create new lanes
-	for i in range(num_lanes):
-		var new_lane = HBoxContainer.new()
-		new_lane.name = "lane" + str(i)
-		lanes[new_lane] = []
-		$lanes.add_child(new_lane)
+	for i in range(lane_count):
+		create_empty_lane(i+1)
+
+# reload the editor with a new number of lanes
+# `lane_delta` is the number of lanes added or removed
+func adjust_lane_count(lane_delta: int):
+	if lane_count + lane_delta < 4: return
 	
-	# create checkboxes
-	for lane in lanes.keys():
-		for line in range(lines):
-			if line % 8 == 0 and line > 0: lane.add_child(VSeparator.new())
-			var checkbox = CheckBox.new()
-			lane.add_child(checkbox)
-			lanes.get(lane).append(checkbox)
+	if lane_delta < 0:
+		for i in range(abs(lane_delta)):
+			var curr_lane = lanes.keys()[lanes.keys().size()+(lane_delta+i)]
+			hidden_lanes[curr_lane] = lanes[curr_lane]
+			curr_lane.visible = false
+			lanes.erase(curr_lane)
+			lane_count -= 1
+	else:
+		var remaining_lanes = lane_delta
+		while hidden_lanes.size() > 0 and remaining_lanes > 0:
+			var curr_lane = hidden_lanes.keys()[hidden_lanes.keys().size()-1]
+			lanes[curr_lane] = hidden_lanes[curr_lane]
+			hidden_lanes.erase(curr_lane)
+			curr_lane.visible = true
+			lane_count += 1
+			remaining_lanes -= 1
+		while remaining_lanes > 0:
+			create_empty_lane(lane_count)
+			lane_count += 1
+			remaining_lanes -= 1
 	
-	map.create(Vector2i(num_lanes, lines))
+	$lane_count/counter.text = str(lane_count)
+
+# creates a new lane labeled `lane${num}` WITHOUT updating lane_count
+func create_empty_lane(num: int):
+	var new_lane = HBoxContainer.new()
+	new_lane.name = "lane" + str(num)
+	lanes[new_lane] = []
+	$lanes.add_child(new_lane)
+	
+	for line in range(lines):
+		if line % 8 == 0 and line > 0: new_lane.add_child(VSeparator.new())
+		var checkbox = CheckBox.new()
+		new_lane.add_child(checkbox)
+		lanes[new_lane].append(checkbox)
 
 # load a map from file
 func load_map(path: String):
 	map = load(path)
+	lane_count = map.get_size().x
+	initialize_editor()
 	
 	for i in range(lanes.keys().size()):
 		var boxes = lanes[lanes.keys()[i]]
@@ -74,11 +111,7 @@ func _on_file_selected(path):
 	file_selector.hide()
 
 func _on_minus_pressed():
-	lane_count -= 2
-	$lane_count/counter.text = str(lane_count)
-	initialize_map(lane_count)
+	adjust_lane_count(-2)
 
 func _on_plus_pressed():
-	lane_count += 2
-	$lane_count/counter.text = str(lane_count)
-	initialize_map(lane_count)
+	adjust_lane_count(2)
