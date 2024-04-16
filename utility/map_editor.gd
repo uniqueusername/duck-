@@ -6,7 +6,7 @@ extends VBoxContainer
 var hidden_lanes = {} # cache "deleted" lanes
 
 # beatmap
-@export var map: DuckMap
+@export var map: DuckMap = DuckMap.new()
 
 func _ready():
 	initialize_editor()
@@ -54,7 +54,7 @@ func adjust_lane_count(lane_delta: int):
 	
 	$lane_count/counter.text = str(map.lane_count)
 
-# creates a new lane labeled `lane${num}` WITHOUT updating lane_count
+# creates a new lane labeled `lane${num}` WITHOUT updating `lane_count`
 func create_empty_lane(num: int):
 	var new_lane = HBoxContainer.new()
 	new_lane.name = "lane" + str(num)
@@ -79,7 +79,7 @@ func load_map(path: String):
 
 # save current editor state to a file
 func save_map(path: String):
-	map.bitmap.create(Vector2i(map.lane_count, map.total_lines))
+	map.reset_bitmap()
 	
 	for i in range(lanes.keys().size()):
 		var boxes = lanes.get(lanes.keys()[i])

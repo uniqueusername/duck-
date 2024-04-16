@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="DuckMap" load_steps=4 format=3]
+[gd_resource type="Resource" script_class="DuckMap" load_steps=4 format=3 uid="uid://coicylp18krgf"]
 
 [ext_resource type="Script" path="res://utility/map_base.gd" id="1_hr8pq"]
-[ext_resource type="AudioStream" path="res://assets/music/tensionnn/webcage - TENSIONNN.mp3" id="2_5i1gi"]
+[ext_resource type="AudioStream" uid="uid://yiwe4k84fp0t" path="res://assets/music/tensionnn/webcage - TENSIONNN.mp3" id="2_5i1gi"]
 
 [sub_resource type="BitMap" id="BitMap_50jtj"]
 data = {
