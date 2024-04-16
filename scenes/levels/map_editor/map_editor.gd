@@ -4,6 +4,7 @@ extends VBoxContainer
 @export var file_selector: FileDialog # file save/open dialog
 @onready var lanes = {} # map each lane to its checkboxes
 var hidden_lanes = {} # cache "deleted" lanes
+var lane_count: int
 
 # beatmap
 @export var map: DuckMap = DuckMap.new()
@@ -22,14 +23,15 @@ func initialize_editor():
 	hidden_lanes.clear()
 	
 	# create new lanes
-	$lane_count/counter.text = str(map.lane_count)
-	for i in range(map.lane_count):
+	lane_count = map.lane_count
+	$lane_count/counter.text = str(lane_count)
+	for i in range(lane_count):
 		create_empty_lane(i+1)
 
 # reload the editor with a new number of lanes
 # `lane_delta` is the number of lanes added or removed
 func adjust_lane_count(lane_delta: int):
-	if map.lane_count + lane_delta < 4: return
+	if lane_count + lane_delta < 4: return
 	
 	if lane_delta < 0:
 		for i in range(abs(lane_delta)):
@@ -37,7 +39,7 @@ func adjust_lane_count(lane_delta: int):
 			hidden_lanes[curr_lane] = lanes[curr_lane]
 			curr_lane.visible = false
 			lanes.erase(curr_lane)
-			map.lane_count -= 1
+			lane_count -= 1
 	else:
 		var remaining_lanes = lane_delta
 		while hidden_lanes.size() > 0 and remaining_lanes > 0:
@@ -45,14 +47,14 @@ func adjust_lane_count(lane_delta: int):
 			lanes[curr_lane] = hidden_lanes[curr_lane]
 			hidden_lanes.erase(curr_lane)
 			curr_lane.visible = true
-			map.lane_count += 1
+			lane_count += 1
 			remaining_lanes -= 1
 		while remaining_lanes > 0:
-			create_empty_lane(map.lane_count)
-			map.lane_count += 1
+			create_empty_lane(lane_count)
+			lane_count += 1
 			remaining_lanes -= 1
 	
-	$lane_count/counter.text = str(map.lane_count)
+	$lane_count/counter.text = str(lane_count)
 
 # creates a new lane labeled `lane${num}` WITHOUT updating `lane_count`
 func create_empty_lane(num: int):
@@ -70,6 +72,7 @@ func create_empty_lane(num: int):
 # load a map from file
 func load_map(path: String):
 	map = load(path)
+	map.size_to_song()
 	initialize_editor()
 	
 	for i in range(lanes.keys().size()):
@@ -80,6 +83,7 @@ func load_map(path: String):
 # save current editor state to a file
 func save_map(path: String):
 	map.reset_bitmap()
+	map.resize_map(lane_count, map.total_lines)
 	
 	for i in range(lanes.keys().size()):
 		var boxes = lanes.get(lanes.keys()[i])
