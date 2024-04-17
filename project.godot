@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 
+[editor]
+
+movie_writer/movie_file="/Users/ary/Movies/movie.avi"
+
 [input]
 
 left={

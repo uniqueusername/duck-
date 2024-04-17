@@ -17,7 +17,7 @@ func _ready():
 	stream = map.song
 	play()
 
-func _process(delta):
+func _process(_delta):
 	var time: float = (get_playback_position()
 		+ AudioServer.get_time_since_last_mix()
 		- AudioServer.get_output_latency())

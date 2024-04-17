@@ -4,6 +4,7 @@ extends Node3D
 @onready var map: DuckMap = %conductor.map
 var note_scene: PackedScene = preload("res://scenes/objects/note/note.tscn")
 var lanes = []
+var tween: Tween
 
 # variables
 var lane_rotations = []
@@ -12,7 +13,6 @@ var focused_lane: int = 0: # 0-indexed, circular
 		if value < 0: focused_lane = map.lane_count + value
 		elif value > map.lane_count - 1: focused_lane = value - map.lane_count
 		else: focused_lane = value
-var snap_threshold: float = 0.001
 @onready var lines_per_second: float = map.lines_per_beat / %conductor.seconds_per_beat
 
 func _ready():
@@ -22,13 +22,6 @@ func _ready():
 	%conductor.new_line.connect(sync_notes)
 
 func _process(delta):
-	# rotation machine
-	if (abs(rotation.z - lane_rotations[focused_lane]) < snap_threshold):
-		rotation.z = lane_rotations[focused_lane]
-	else:
-		rotation.z = lerp_angle(rotation.z, lane_rotations[focused_lane], 0.4)
-	
-	# move notes closer
 	$lanes.position.z += lines_per_second * delta
 
 # configure rotation markers and display indicator
@@ -51,13 +44,23 @@ func spawn_notes():
 				note.position.z = -1 * line - 0.5
 				lanes[lane].add_child(note)
 
+# get song state from conductor and force alignment
 func sync_notes(current_line: int):
 	$lanes.position.z = current_line
+
+# set up tween for rotation
+func do_rotation(angle: float):
+	tween = create_tween().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	var new_angle: float = lerp_angle(rotation.z, angle, 1)
+	tween.tween_property(self, "rotation", Vector3(0, 0, new_angle), 0.1)
 
 func _input(event):
 	if event.is_action_pressed("left"):
 		focused_lane += 1
+		do_rotation(lane_rotations[focused_lane])
 	if event.is_action_pressed("right"):
 		focused_lane -= 1
+		do_rotation(lane_rotations[focused_lane])
 	if event.is_action_pressed("flip"):
 		focused_lane += 3
+		do_rotation(lane_rotations[focused_lane])
