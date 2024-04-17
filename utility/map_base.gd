@@ -8,7 +8,7 @@ class_name DuckMap
 @export var lane_count: int = 6
 @export var lines_per_beat: int = 4
 var total_lines: int
-var bitmap: BitMap = BitMap.new()
+@export var bitmap: BitMap = BitMap.new()
 
 # song data
 @export_subgroup("Song Data")
