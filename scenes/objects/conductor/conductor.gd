@@ -35,4 +35,4 @@ func beat():
 	if metronome: $metronome.play()
 
 func line():
-	pass
+	new_line.emit(current_line)

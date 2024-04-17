@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dmiyr1vyfk3ka"]
+[gd_scene load_steps=8 format=3 uid="uid://dmiyr1vyfk3ka"]
 
 [ext_resource type="PackedScene" uid="uid://dqjlfld3di5i8" path="res://scenes/objects/conductor/conductor.tscn" id="1_6jfri"]
 [ext_resource type="Resource" uid="uid://hbtn5rfbx4fq" path="res://assets/maps/tensionnn.tres" id="2_ikbiv"]
-[ext_resource type="Script" path="res://scenes/levels/base_map/hit_indicator.gd" id="3_d63h4"]
+[ext_resource type="Script" path="res://scenes/levels/base_map/notes.gd" id="3_d63h4"]
+[ext_resource type="Script" path="res://scenes/levels/base_map/hit_indicator.gd" id="4_yqlf1"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2sv1l"]
 sky_top_color = Color(0.32549, 0, 0.729412, 1)
@@ -28,9 +29,14 @@ map = ExtResource("2_ikbiv")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2)
 frustum_offset = Vector2(2.08165e-12, 2.08165e-12)
 
-[node name="hit_indicator" type="Node3D" parent="."]
+[node name="notes" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
 script = ExtResource("3_d63h4")
+
+[node name="hit_indicator" type="Node3D" parent="notes"]
+script = ExtResource("4_yqlf1")
+
+[node name="lanes" type="Node3D" parent="notes"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 light_energy = 0.5
