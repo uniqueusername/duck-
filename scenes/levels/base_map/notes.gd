@@ -51,10 +51,11 @@ func spawn_notes():
 func sync_notes(current_line: int):
 	$lanes.position.z = current_line
 
+# modify health based on if we are in an active lane or not
 func check_active_lane(current_line: int):
 	var check_lane: int = 0 if focused_lane == 0 else 6 - focused_lane
 	if not active_lanes_array[current_line].has(check_lane):
-		health -= 1
+		health -= 2
 		$Label.text = str(health)
 
 # set up tween for rotation
