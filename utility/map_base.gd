@@ -9,6 +9,7 @@ class_name DuckMap
 @export var lines_per_beat: int = 4
 var total_lines: int
 @export var bitmap: BitMap = BitMap.new()
+var active_lanes_array = []
 
 # song data
 @export_subgroup("Song Data")
@@ -52,3 +53,14 @@ func resize_map(lanes: int, lines: int):
 	lane_count = lanes
 	total_lines = lines
 	bitmap = new_map
+
+# build and return an array indicating which lanes are active on any given line
+func get_active_lanes_array():
+	active_lanes_array = []
+	
+	for line in range(total_lines):
+		active_lanes_array.append([])
+		for lane in range(lane_count):
+			if get_bit(lane, line): active_lanes_array[line].append(lane)
+
+	return active_lanes_array

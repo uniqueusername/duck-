@@ -14,12 +14,15 @@ var focused_lane: int = 0: # 0-indexed, circular
 		elif value > map.lane_count - 1: focused_lane = value - map.lane_count
 		else: focused_lane = value
 @onready var lines_per_second: float = map.lines_per_beat / %conductor.seconds_per_beat
+@onready var active_lanes_array = map.get_active_lanes_array()
+var health: float = 100
 
 func _ready():
 	create_lanes()
 	spawn_notes()
 	
-	%conductor.new_line.connect(sync_notes)
+	%conductor._line.connect(sync_notes)
+	%conductor._line.connect(check_active_lane)
 
 func _process(delta):
 	$lanes.position.z += lines_per_second * delta
@@ -33,7 +36,7 @@ func create_lanes():
 		lane.rotation.z = i * (2 * PI / map.lane_count)
 		lane_rotations.append(lane.rotation.z)
 		lane.position.y = -1
-		lane.position = lane.position.rotated(Vector3.BACK, i * (2 * PI / map.lane_count))
+		lane.position = lane.position.rotated(Vector3.BACK, lane.rotation.z)
 		$lanes.add_child(lane)
 
 func spawn_notes():
@@ -47,6 +50,12 @@ func spawn_notes():
 # get song state from conductor and force alignment
 func sync_notes(current_line: int):
 	$lanes.position.z = current_line
+
+func check_active_lane(current_line: int):
+	var check_lane: int = 0 if focused_lane == 0 else 6 - focused_lane
+	if not active_lanes_array[current_line].has(check_lane):
+		health -= 1
+		$Label.text = str(health)
 
 # set up tween for rotation
 func do_rotation(angle: float):

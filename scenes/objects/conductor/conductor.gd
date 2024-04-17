@@ -1,12 +1,14 @@
 extends AudioStreamPlayer3D
 
-signal new_line
+signal _line
+signal _beat
 
 # song metadata
 @export var map: DuckMap = DuckMap.new()
 @onready var seconds_per_beat: float = 60.0 / map.bpm # seconds per beat
 
 # runtime information
+var time: float = 0
 var current_beat: int = 0
 var current_line: int = 0
 
@@ -18,7 +20,7 @@ func _ready():
 	play()
 
 func _process(_delta):
-	var time: float = (get_playback_position()
+	time = (get_playback_position()
 		+ AudioServer.get_time_since_last_mix()
 		- AudioServer.get_output_latency())
 	
@@ -33,6 +35,7 @@ func _process(_delta):
 
 func beat():
 	if metronome: $metronome.play()
+	_beat.emit(current_beat)
 
 func line():
-	new_line.emit(current_line)
+	_line.emit(current_line)
