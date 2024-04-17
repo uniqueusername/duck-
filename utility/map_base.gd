@@ -9,7 +9,8 @@ class_name DuckMap
 @export var lines_per_beat: int = 4
 var total_lines: int
 @export var bitmap: BitMap = BitMap.new()
-var active_lanes_array = []
+var active_lanes_array = [] # which lanes are active at any given line
+var lane_changes = [] # contains ms of each lane changex`
 
 # song data
 @export_subgroup("Song Data")
@@ -62,5 +63,23 @@ func get_active_lanes_array():
 		active_lanes_array.append([])
 		for lane in range(lane_count):
 			if get_bit(lane, line): active_lanes_array[line].append(lane)
-
+			
+	identify_lane_changes()
 	return active_lanes_array
+
+func identify_lane_changes():
+	var last_active = []
+	for line in range(total_lines):
+		if line == 0:
+			last_active = active_lanes_array[0]
+			continue
+		
+		var lane_unchanged = false
+		for lane in last_active:
+			if active_lanes_array[line].has(lane):
+				lane_unchanged = true
+				break
+		
+		if not lane_unchanged:
+			lane_changes.append(line / lines_per_beat * (60.0 / bpm))
+			last_active = active_lanes_array[line]
