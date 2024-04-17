@@ -26,7 +26,7 @@ func _process(delta):
 	if (abs(rotation.z - lane_rotations[focused_lane]) < snap_threshold):
 		rotation.z = lane_rotations[focused_lane]
 	else:
-		rotation.z = lerp_angle(rotation.z, lane_rotations[focused_lane], 0.2)
+		rotation.z = lerp_angle(rotation.z, lane_rotations[focused_lane], 0.4)
 	
 	# move notes closer
 	$lanes.position.z += lines_per_second * delta

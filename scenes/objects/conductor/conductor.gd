@@ -4,7 +4,7 @@ signal new_line
 
 # song metadata
 @export var map: DuckMap = DuckMap.new()
-var seconds_per_beat: float = 60.0 / map.bpm # seconds per beat
+@onready var seconds_per_beat: float = 60.0 / map.bpm # seconds per beat
 
 # runtime information
 var current_beat: int = 0
