@@ -38,11 +38,11 @@ script = ExtResource("4_yqlf1")
 
 [node name="lanes" type="Node3D" parent="notes"]
 
-[node name="Label" type="Label" parent="notes"]
+[node name="health" type="Label" parent="notes"]
 offset_right = 40.0
 offset_bottom = 23.0
 theme_override_font_sizes/font_size = 64
-text = "goomba"
+text = "100"
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 light_energy = 0.5

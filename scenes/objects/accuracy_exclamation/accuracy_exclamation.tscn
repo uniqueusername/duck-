@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://doehc1ajk6tsr"]
+
+[ext_resource type="Script" path="res://scenes/objects/accuracy_exclamation/accuracy_exclamation.gd" id="1_0fdio"]
+
+[node name="accuracy_exclamation" type="Label"]
+top_level = true
+offset_left = 1162.0
+offset_top = 110.0
+offset_right = 1163.0
+offset_bottom = 155.0
+theme_override_font_sizes/font_size = 32
+script = ExtResource("1_0fdio")
