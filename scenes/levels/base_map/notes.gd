@@ -22,7 +22,11 @@ var health: float = 100:
 	set(value):
 		if value > 100: health = 100
 		else: health = value
-		$health.text = str(health)
+		$gui/MarginContainer/health.text = str(health)
+var combo: int = 0:
+	set(value):
+		combo = value
+		$gui/MarginContainer/combo.text = "combo: " + str(combo)
 var accuracy_margin: float = 0.2 # how many seconds before a note is missed
 @onready var listener_starts = map.lane_changes
 var listeners = []
@@ -41,7 +45,7 @@ func _process(delta):
 	if listener_starts.size() > 0 and %conductor.time > listener_starts[0]:
 		listeners.append(accuracy_margin)
 		listener_starts.remove_at(0)
-		
+	
 	for i in range(listeners.size()):
 		if i >= listeners.size(): break
 		listeners[i] -= delta
@@ -49,8 +53,9 @@ func _process(delta):
 			listeners.remove_at(i)
 			var exclamation = exclamation_scene.instantiate()
 			exclamation.text = "miss"
-			add_child(exclamation)
+			$gui/MarginContainer.add_child(exclamation)
 			health -= 25
+			combo = 0
 
 # configure rotation markers and display indicator
 func create_lanes():
@@ -92,14 +97,7 @@ func do_rotation(angle: float):
 	var new_angle: float = lerp_angle(rotation.z, angle, 1)
 	tween.tween_property(self, "rotation", Vector3(0, 0, new_angle), 0.1)
 
-func _input(event):
-	if event.is_action_pressed("left"):
-		focused_lane += 1
-	if event.is_action_pressed("right"):
-		focused_lane -= 1
-	if event.is_action_pressed("flip"):
-		focused_lane += 3
-	
+func check_accuracy():
 	if listeners.size() > 0:
 		var accuracy = listeners[0]
 		listeners.remove_at(0)
@@ -111,6 +109,18 @@ func _input(event):
 		else:
 			exclamation.text = "bad"
 			health += 3
-		add_child(exclamation)
+		combo += 1
+		$gui/MarginContainer.add_child(exclamation)
+
+func _input(event):
+	if event.is_action_pressed("left"):
+		focused_lane += 1
+		check_accuracy()
+	if event.is_action_pressed("right"):
+		focused_lane -= 1
+		check_accuracy()
+	if event.is_action_pressed("flip"):
+		focused_lane += 3
+		check_accuracy()
 		
 	do_rotation(lane_rotations[focused_lane])
