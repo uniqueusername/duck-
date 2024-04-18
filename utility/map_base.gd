@@ -31,7 +31,7 @@ func reset_bitmap():
 	if song:
 		bpm = song.bpm
 		total_beats = int(ceil(song.get_length() / 60 * bpm))
-	else: total_beats = 8
+	else: total_beats = 128
 	
 	total_lines = total_beats * lines_per_beat
 	bitmap.create(Vector2i(lane_count, total_lines))
@@ -81,5 +81,5 @@ func identify_lane_changes():
 				break
 		
 		if not lane_unchanged:
-			lane_changes.append(line / lines_per_beat * (60.0 / bpm))
+			lane_changes.append(float(line) / float(lines_per_beat) * (60.0 / bpm))
 			last_active = active_lanes_array[line]

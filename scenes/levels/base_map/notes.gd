@@ -43,6 +43,7 @@ func _process(delta):
 		listener_starts.remove_at(0)
 		
 	for i in range(listeners.size()):
+		if i >= listeners.size(): break
 		listeners[i] -= delta
 		if listeners[i] < -accuracy_margin:
 			listeners.remove_at(i)
@@ -104,7 +105,7 @@ func _input(event):
 		listeners.remove_at(0)
 		
 		var exclamation = exclamation_scene.instantiate()
-		if abs(accuracy) < 0.25 * accuracy_margin:
+		if abs(accuracy) < 0.5 * accuracy_margin:
 			exclamation.text = "perfect"
 			health += 10
 		else:
