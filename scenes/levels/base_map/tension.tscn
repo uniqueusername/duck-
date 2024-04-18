@@ -1,0 +1,86 @@
+[gd_scene load_steps=11 format=3 uid="uid://dmiyr1vyfk3ka"]
+
+[ext_resource type="PackedScene" uid="uid://dqjlfld3di5i8" path="res://scenes/objects/conductor/conductor.tscn" id="1_6jfri"]
+[ext_resource type="Resource" uid="uid://c5awwt8by3877" path="res://assets/maps/tensionnn2.tres" id="2_kbo0h"]
+[ext_resource type="Script" path="res://scenes/levels/base_map/notes.gd" id="3_d63h4"]
+[ext_resource type="Script" path="res://scenes/levels/base_map/hit_indicator.gd" id="4_yqlf1"]
+[ext_resource type="AudioStream" uid="uid://d1rgxbekjbehd" path="res://assets/sounds/hit.wav" id="5_c4apt"]
+[ext_resource type="ArrayMesh" uid="uid://b86axp7pwyfh6" path="res://assets/models/duck3d.obj" id="5_dt5go"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2sv1l"]
+sky_top_color = Color(0.32549, 0, 0.729412, 1)
+sky_horizon_color = Color(0.180392, 0, 0.427451, 1)
+ground_bottom_color = Color(0.0352941, 0, 0.129412, 1)
+ground_horizon_color = Color(0.180392, 0, 0.427451, 1)
+ground_curve = 0.0649802
+
+[sub_resource type="Sky" id="Sky_ahn73"]
+sky_material = SubResource("ProceduralSkyMaterial_2sv1l")
+
+[sub_resource type="Environment" id="Environment_j76h3"]
+background_mode = 2
+sky = SubResource("Sky_ahn73")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3dbfo"]
+albedo_color = Color(1, 1, 0, 1)
+emission_enabled = true
+emission = Color(1, 1, 0, 1)
+
+[node name="tension" type="Node3D"]
+
+[node name="conductor" parent="." instance=ExtResource("1_6jfri")]
+unique_name_in_owner = true
+map = ExtResource("2_kbo0h")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2)
+frustum_offset = Vector2(2.08165e-12, 2.08165e-12)
+
+[node name="notes" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+script = ExtResource("3_d63h4")
+
+[node name="hit_indicator" type="Node3D" parent="notes"]
+script = ExtResource("4_yqlf1")
+
+[node name="lanes" type="Node3D" parent="notes"]
+
+[node name="gui" type="CanvasLayer" parent="notes"]
+
+[node name="MarginContainer" type="MarginContainer" parent="notes/gui"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="health" type="Label" parent="notes/gui/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 64
+text = "100"
+
+[node name="combo" type="Label" parent="notes/gui/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 64
+text = "combo: 0"
+
+[node name="hit_sound" type="AudioStreamPlayer3D" parent="notes"]
+stream = ExtResource("5_c4apt")
+max_db = 6.0
+pitch_scale = 4.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+light_energy = 0.5
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_j76h3")
+
+[node name="Duck3d" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.15, 0, 0, 0, 0.15, 0, 0, 0, 0.15, 2.08165e-12, -1, 2.08165e-12)
+visible = false
+mesh = ExtResource("5_dt5go")
+surface_material_override/0 = SubResource("StandardMaterial3D_3dbfo")
