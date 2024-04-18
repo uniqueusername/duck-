@@ -27,7 +27,7 @@ var combo: int = 0:
 	set(value):
 		combo = value
 		$gui/MarginContainer/combo.text = "combo: " + str(combo)
-var accuracy_margin: float = 0.2 # how many seconds before a note is missed
+var accuracy_margin: float = 0.1 # how many seconds before a note is missed
 @onready var listener_starts = map.lane_changes
 var listeners = []
 
@@ -95,7 +95,7 @@ func config_listeners():
 func do_rotation(angle: float):
 	tween = create_tween().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
 	var new_angle: float = lerp_angle(rotation.z, angle, 1)
-	tween.tween_property(self, "rotation", Vector3(0, 0, new_angle), 0.1)
+	tween.tween_property(self, "rotation", Vector3(0, 0, new_angle), 0.15)
 
 func check_accuracy():
 	if listeners.size() > 0:
@@ -110,6 +110,7 @@ func check_accuracy():
 			exclamation.text = "bad"
 			health += 3
 		combo += 1
+		$hit_sound.play()
 		$gui/MarginContainer.add_child(exclamation)
 
 func _input(event):
