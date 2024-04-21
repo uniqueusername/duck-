@@ -8,10 +8,10 @@
 [ext_resource type="ArrayMesh" uid="uid://b86axp7pwyfh6" path="res://assets/models/duck3d.obj" id="5_dt5go"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_2sv1l"]
-sky_top_color = Color(0.32549, 0, 0.729412, 1)
-sky_horizon_color = Color(0.180392, 0, 0.427451, 1)
-ground_bottom_color = Color(0.0352941, 0, 0.129412, 1)
-ground_horizon_color = Color(0.180392, 0, 0.427451, 1)
+sky_top_color = Color(0.145098, 0, 0.360784, 1)
+sky_horizon_color = Color(0.0666667, 0, 0.196078, 1)
+ground_bottom_color = Color(0.0117647, 0, 0.054902, 1)
+ground_horizon_color = Color(0.0666667, 0, 0.196078, 1)
 ground_curve = 0.0649802
 
 [sub_resource type="Sky" id="Sky_ahn73"]
@@ -19,6 +19,7 @@ sky_material = SubResource("ProceduralSkyMaterial_2sv1l")
 
 [sub_resource type="Environment" id="Environment_j76h3"]
 background_mode = 2
+background_energy_multiplier = 2.0
 sky = SubResource("Sky_ahn73")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3dbfo"]
@@ -74,7 +75,8 @@ max_db = 6.0
 pitch_scale = 4.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-light_energy = 0.5
+light_color = Color(1, 0.498039, 1, 1)
+light_energy = 2.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_j76h3")
